@@ -1,2 +1,2 @@
 # text-to-sql
-Text to SQL (CIT)
+Text to SQL
