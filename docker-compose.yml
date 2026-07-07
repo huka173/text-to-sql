@@ -1,20 +1,26 @@
 services:
   postgres:
     image: postgres:17
-
     container_name: text-to-sql-postgres
-
     restart: unless-stopped
-
     env_file:
       - .env
-
     ports:
       - "${POSTGRES_PORT}:5432"
-
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./database/init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
 
+  ollama:
+    image: ollama/ollama:latest
+    container_name: text-to-sql-ollama
+    restart: unless-stopped
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    gpus: all
+
 volumes:
   postgres_data:
+  ollama_data: 
