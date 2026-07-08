@@ -2,6 +2,20 @@ import httpx
 
 from config import OLLAMA_URL, OLLAMA_MODEL
 
+def clean_sql(sql: str) -> str:
+    sql = sql.strip()
+
+    if sql.startswith("```sql"):
+        sql = sql.removeprefix("```sql")
+
+    if sql.startswith("```"):
+        sql = sql.removeprefix("```")
+
+    if sql.endswith("```"):
+        sql = sql.removesuffix("```")
+
+    return sql.strip()
+
 def generate_sql(prompt: str, system: str) -> str:
     response = httpx.post(
         f"{OLLAMA_URL}/api/generate",
@@ -18,4 +32,4 @@ def generate_sql(prompt: str, system: str) -> str:
 
     data = response.json()
 
-    return data["response"]
+    return clean_sql(data["response"])
