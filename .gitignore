@@ -3,3 +3,5 @@
 backend/.venv
 backend/__pycache__
 wren/.wren
+__pycache__/
+*.pyc

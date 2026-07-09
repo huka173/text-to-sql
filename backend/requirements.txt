@@ -1,5 +1,5 @@
 fastapi
 uvicorn[standard]
-psycopg[binary]
 httpx
-python-dotenv
+psycopg[binary]
+wrenai==0.12.0
