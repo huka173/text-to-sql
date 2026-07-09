@@ -1,0 +1,30 @@
+name: tasks
+
+table_reference:
+  catalog: ""
+  schema: public
+  table: tasks
+
+primary_key: id
+
+columns:
+
+  - name: id
+    type: INTEGER
+
+  - name: employee_id
+    type: INTEGER
+
+  - name: project_id
+    type: INTEGER
+
+  - name: title
+    type: VARCHAR
+
+  - name: status
+    type: VARCHAR
+    properties:
+      description: "Task status"
+
+  - name: created_at
+    type: DATE

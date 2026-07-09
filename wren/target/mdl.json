@@ -1,0 +1,288 @@
+{
+  "catalog": "wren",
+  "schema": "public",
+  "models": [
+    {
+      "name": "departments",
+      "tableReference": {
+        "catalog": "",
+        "schema": "public",
+        "table": "departments"
+      },
+      "primaryKey": "id",
+      "properties": {
+        "description": "Company departments"
+      },
+      "columns": [
+        {
+          "name": "id",
+          "type": "INTEGER",
+          "notNull": true
+        },
+        {
+          "name": "name",
+          "type": "VARCHAR",
+          "properties": {
+            "description": "Department name"
+          }
+        }
+      ]
+    },
+    {
+      "name": "employee_projects",
+      "tableReference": {
+        "catalog": "",
+        "schema": "public",
+        "table": "employee_projects"
+      },
+      "columns": [
+        {
+          "name": "employee_id",
+          "type": "INTEGER"
+        },
+        {
+          "name": "project_id",
+          "type": "INTEGER"
+        },
+        {
+          "name": "role",
+          "type": "VARCHAR",
+          "properties": {
+            "description": "Employee role in project"
+          }
+        }
+      ]
+    },
+    {
+      "name": "employees",
+      "tableReference": {
+        "catalog": "",
+        "schema": "public",
+        "table": "employees"
+      },
+      "primaryKey": "id",
+      "properties": {
+        "description": "Company employees"
+      },
+      "columns": [
+        {
+          "name": "id",
+          "type": "INTEGER"
+        },
+        {
+          "name": "full_name",
+          "type": "VARCHAR",
+          "properties": {
+            "description": "Employee full name"
+          }
+        },
+        {
+          "name": "department_id",
+          "type": "INTEGER"
+        },
+        {
+          "name": "hire_date",
+          "type": "DATE"
+        }
+      ]
+    },
+    {
+      "name": "projects",
+      "tableReference": {
+        "catalog": "",
+        "schema": "public",
+        "table": "projects"
+      },
+      "primaryKey": "id",
+      "properties": {
+        "description": "Company projects"
+      },
+      "columns": [
+        {
+          "name": "id",
+          "type": "INTEGER"
+        },
+        {
+          "name": "name",
+          "type": "VARCHAR",
+          "properties": {
+            "description": "Project name"
+          }
+        },
+        {
+          "name": "start_date",
+          "type": "DATE"
+        },
+        {
+          "name": "end_date",
+          "type": "DATE"
+        }
+      ]
+    },
+    {
+      "name": "salaries",
+      "tableReference": {
+        "catalog": "",
+        "schema": "public",
+        "table": "salaries"
+      },
+      "primaryKey": "id",
+      "columns": [
+        {
+          "name": "id",
+          "type": "INTEGER"
+        },
+        {
+          "name": "employee_id",
+          "type": "INTEGER"
+        },
+        {
+          "name": "amount",
+          "type": "DECIMAL"
+        },
+        {
+          "name": "from_date",
+          "type": "DATE"
+        },
+        {
+          "name": "to_date",
+          "type": "DATE"
+        }
+      ]
+    },
+    {
+      "name": "tasks",
+      "tableReference": {
+        "catalog": "",
+        "schema": "public",
+        "table": "tasks"
+      },
+      "primaryKey": "id",
+      "columns": [
+        {
+          "name": "id",
+          "type": "INTEGER"
+        },
+        {
+          "name": "employee_id",
+          "type": "INTEGER"
+        },
+        {
+          "name": "project_id",
+          "type": "INTEGER"
+        },
+        {
+          "name": "title",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR",
+          "properties": {
+            "description": "Task status"
+          }
+        },
+        {
+          "name": "created_at",
+          "type": "DATE"
+        }
+      ]
+    },
+    {
+      "name": "vacations",
+      "tableReference": {
+        "catalog": "",
+        "schema": "public",
+        "table": "vacations"
+      },
+      "primaryKey": "id",
+      "columns": [
+        {
+          "name": "id",
+          "type": "INTEGER"
+        },
+        {
+          "name": "employee_id",
+          "type": "INTEGER"
+        },
+        {
+          "name": "start_date",
+          "type": "DATE"
+        },
+        {
+          "name": "end_date",
+          "type": "DATE"
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "name": "employees_departments",
+      "models": [
+        "employees",
+        "departments"
+      ],
+      "joinType": "many_to_one",
+      "condition": "employees.department_id = departments.id"
+    },
+    {
+      "name": "employee_projects_employees",
+      "models": [
+        "employee_projects",
+        "employees"
+      ],
+      "joinType": "many_to_one",
+      "condition": "employee_projects.employee_id = employees.id"
+    },
+    {
+      "name": "employee_projects_projects",
+      "models": [
+        "employee_projects",
+        "projects"
+      ],
+      "joinType": "many_to_one",
+      "condition": "employee_projects.project_id = projects.id"
+    },
+    {
+      "name": "tasks_employees",
+      "models": [
+        "tasks",
+        "employees"
+      ],
+      "joinType": "many_to_one",
+      "condition": "tasks.employee_id = employees.id"
+    },
+    {
+      "name": "tasks_projects",
+      "models": [
+        "tasks",
+        "projects"
+      ],
+      "joinType": "many_to_one",
+      "condition": "tasks.project_id = projects.id"
+    },
+    {
+      "name": "salaries_employees",
+      "models": [
+        "salaries",
+        "employees"
+      ],
+      "joinType": "many_to_one",
+      "condition": "salaries.employee_id = employees.id"
+    },
+    {
+      "name": "vacations_employees",
+      "models": [
+        "vacations",
+        "employees"
+      ],
+      "joinType": "many_to_one",
+      "condition": "vacations.employee_id = employees.id"
+    }
+  ],
+  "views": [],
+  "cubes": [],
+  "dataSource": "postgres",
+  "layoutVersion": 3
+}

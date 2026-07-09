@@ -1,0 +1,25 @@
+name: salaries
+
+table_reference:
+  catalog: ""
+  schema: public
+  table: salaries
+
+primary_key: id
+
+columns:
+
+  - name: id
+    type: INTEGER
+
+  - name: employee_id
+    type: INTEGER
+
+  - name: amount
+    type: DECIMAL
+
+  - name: from_date
+    type: DATE
+
+  - name: to_date
+    type: DATE
