@@ -1,0 +1,26 @@
+name: projects
+
+table_reference:
+  catalog: ""
+  schema: public
+  table: projects
+
+primary_key: id
+
+properties:
+  description: "Company projects"
+
+columns:
+  - name: id
+    type: INTEGER
+
+  - name: name
+    type: VARCHAR
+    properties:
+      description: "Project name"
+
+  - name: start_date
+    type: DATE
+
+  - name: end_date
+    type: DATE

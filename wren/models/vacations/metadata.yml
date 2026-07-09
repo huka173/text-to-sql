@@ -1,0 +1,22 @@
+name: vacations
+
+table_reference:
+  catalog: ""
+  schema: public
+  table: vacations
+
+primary_key: id
+
+columns:
+
+  - name: id
+    type: INTEGER
+
+  - name: employee_id
+    type: INTEGER
+
+  - name: start_date
+    type: DATE
+
+  - name: end_date
+    type: DATE

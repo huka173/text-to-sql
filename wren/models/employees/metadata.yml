@@ -1,0 +1,26 @@
+name: employees
+
+table_reference:
+  catalog: ""
+  schema: public
+  table: employees
+
+primary_key: id
+
+properties:
+  description: "Company employees"
+
+columns:
+  - name: id
+    type: INTEGER
+
+  - name: full_name
+    type: VARCHAR
+    properties:
+      description: "Employee full name"
+
+  - name: department_id
+    type: INTEGER
+
+  - name: hire_date
+    type: DATE

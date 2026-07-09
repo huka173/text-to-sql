@@ -1,0 +1,19 @@
+name: employee_projects
+
+table_reference:
+  catalog: ""
+  schema: public
+  table: employee_projects
+
+columns:
+
+  - name: employee_id
+    type: INTEGER
+
+  - name: project_id
+    type: INTEGER
+
+  - name: role
+    type: VARCHAR
+    properties:
+      description: "Employee role in project"

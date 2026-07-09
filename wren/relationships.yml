@@ -1,0 +1,56 @@
+relationships:
+
+  - name: employees_departments
+    models:
+      - employees
+      - departments
+    join_type: many_to_one
+    condition: employees.department_id = departments.id
+
+
+  - name: employee_projects_employees
+    models:
+      - employee_projects
+      - employees
+    join_type: many_to_one
+    condition: employee_projects.employee_id = employees.id
+
+
+  - name: employee_projects_projects
+    models:
+      - employee_projects
+      - projects
+    join_type: many_to_one
+    condition: employee_projects.project_id = projects.id
+
+
+  - name: tasks_employees
+    models:
+      - tasks
+      - employees
+    join_type: many_to_one
+    condition: tasks.employee_id = employees.id
+
+
+  - name: tasks_projects
+    models:
+      - tasks
+      - projects
+    join_type: many_to_one
+    condition: tasks.project_id = projects.id
+
+
+  - name: salaries_employees
+    models:
+      - salaries
+      - employees
+    join_type: many_to_one
+    condition: salaries.employee_id = employees.id
+
+
+  - name: vacations_employees
+    models:
+      - vacations
+      - employees
+    join_type: many_to_one
+    condition: vacations.employee_id = employees.id

@@ -1,0 +1,21 @@
+name: departments
+
+table_reference:
+  catalog: ""
+  schema: public
+  table: departments
+
+primary_key: id
+
+properties:
+  description: "Company departments"
+
+columns:
+  - name: id
+    type: INTEGER
+    not_null: true
+
+  - name: name
+    type: VARCHAR
+    properties:
+      description: "Department name"
