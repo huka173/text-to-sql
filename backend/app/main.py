@@ -1,6 +1,8 @@
 from fastapi import FastAPI
+
+from app.services.chat_service import process_question
 from app.services.wren_service import execute_sql
-from app.services.ollama_service import generate_sql
+from app.schemas.chat import ChatRequest, ChatResponse
 
 app = FastAPI()
 
@@ -8,8 +10,10 @@ app = FastAPI()
 def health():
     return {"status": "ok"}
 
+
 @app.get("/test-wren")
 def test_wren():
+
     sql = """
     SELECT
         e.full_name,
@@ -26,14 +30,6 @@ def test_wren():
         "result": result
     }
 
-@app.post("/chat")
-def chat(question: str):
-
-    sql = generate_sql(question)
-    validate_sql(sql)
-    result = execute_sql(sql)
-
-    return {
-        "sql": sql,
-        "result": result
-    }
+@app.post("/chat", response_model=ChatResponse)
+def chat(request: ChatRequest):
+    return process_question(request.question)
