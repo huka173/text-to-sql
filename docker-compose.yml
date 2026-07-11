@@ -1,7 +1,6 @@
 services:
   postgres:
     image: postgres:17
-    container_name: text-to-sql-postgres
     restart: unless-stopped
     env_file:
       - .env
@@ -13,7 +12,6 @@ services:
 
   ollama:
     image: ollama/ollama:latest
-    container_name: text-to-sql-ollama
     restart: unless-stopped
     ports:
       - "11434:11434"
@@ -21,6 +19,26 @@ services:
       - ollama_data:/root/.ollama
     gpus: all
 
+  backend:
+    build:
+      context: ./backend
+    restart: unless-stopped
+
+    env_file:
+      - .env
+
+    ports:
+      - "8000:8000"
+
+    depends_on:
+      - postgres
+      - ollama
+
+    volumes:
+      - ./backend:/app
+      - ./wren:/app/wren
+      - ~/.wren:/root/.wren
+
 volumes:
   postgres_data:
-  ollama_data: 
+  ollama_data:
