@@ -1,13 +1,9 @@
 import json
 import subprocess
-import re
+import sqlglot
+from sqlglot import expressions as exp
 
 WREN_PATH = "/app/wren"
-
-BLOCKED = re.compile(
-    r"\b(DROP|DELETE|UPDATE|INSERT|ALTER|TRUNCATE)\b",
-    re.IGNORECASE,
-)
 
 def run_wren(*args: str) -> str:
     result = subprocess.run(
@@ -22,7 +18,6 @@ def run_wren(*args: str) -> str:
 
     return result.stdout.strip()
 
-
 def fetch_context(question: str) -> str:
     return run_wren(
         "memory",
@@ -30,7 +25,6 @@ def fetch_context(question: str) -> str:
         "--query",
         question,
     )
-
 
 def execute_sql(sql: str):
     output = run_wren(
@@ -48,9 +42,10 @@ def execute_sql(sql: str):
     ]
 
 def validate_sql(sql: str):
+    try:
+        tree = sqlglot.parse_one(sql, dialect="postgres")
+    except Exception:
+        raise RuntimeError("Invalid SQL")
 
-    if BLOCKED.search(sql):
-        raise RuntimeError("Forbidden SQL operation")
-
-    if not sql.lstrip().upper().startswith("SELECT"):
+    if not isinstance(tree, exp.Select):
         raise RuntimeError("Only SELECT queries are allowed")

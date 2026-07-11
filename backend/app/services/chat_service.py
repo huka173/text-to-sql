@@ -1,3 +1,6 @@
+import time
+
+from app.utils.logger import logger
 from app.services.prompt_service import build_context
 from app.services.ollama_service import generate_sql
 from app.services.wren_service import (
@@ -6,16 +9,45 @@ from app.services.wren_service import (
 )
 
 def process_question(question: str):
-    context = build_context()
+    start = time.perf_counter()
 
-    sql = generate_sql(question, context)
+    try:
+        context = build_context()
 
-    validate_sql(sql)
+        sql = generate_sql(question, context)
 
-    result = execute_sql(sql)
+        validate_sql(sql)
 
-    return {
-        "context": context,
-        "sql": sql,
-        "result": result,
-    }
+        result = execute_sql(sql)
+
+        elapsed = time.perf_counter() - start
+
+        sql_log = sql.replace("\n", " ")
+
+        if len(sql_log) > 300:
+            sql_log = sql_log[:300] + "..."
+
+        logger.info(
+            "status=SUCCESS | time=%.2fs | rows=%d | question=%r | sql=%r",
+            elapsed,
+            len(result),
+            question,
+            sql_log,
+        )
+
+        return {
+            "sql": sql,
+            "result": result,
+        }
+
+    except Exception as e:
+        elapsed = time.perf_counter() - start
+
+        logger.error(
+            "status=ERROR | time=%.2fs | question=%r | error=%r",
+            elapsed,
+            question,
+            str(e),
+        )
+
+        raise

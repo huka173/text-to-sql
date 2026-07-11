@@ -1,14 +1,18 @@
-import httpx
 import re
 
-OLLAMA_URL = "http://ollama:11434"
+import httpx
+
 MODEL = "qwen2.5-coder:7b"
+
+client = httpx.Client(
+    base_url="http://ollama:11434",
+    timeout=120,
+)
 
 def clean_sql(sql: str) -> str:
     sql = sql.strip()
 
     sql = re.sub(r"^```sql\s*", "", sql, flags=re.IGNORECASE)
-
     sql = re.sub(r"\s*```$", "", sql)
 
     return sql.strip()
@@ -34,28 +38,36 @@ Rules:
 - Never use DELETE.
 - Never use DROP.
 - Never use ALTER.
+- Never use TRUNCATE.
 - Never use markdown.
 - Never explain anything.
 - Output ONLY SQL.
+- If the question cannot be answered using the schema, return:
+SELECT 'Cannot answer using available schema' AS message;
+- Never guess missing tables or columns.
 
 User question:
 
 {question}
 """
 
-    response = httpx.post(
-        f"{OLLAMA_URL}/api/generate",
+    response = client.post(
+        "/api/generate",
         json={
             "model": MODEL,
             "prompt": prompt,
             "stream": False,
-            "temperature": 0
+            "temperature": 0,
         },
-        timeout=120,
     )
 
     response.raise_for_status()
 
-    sql = response.json()["response"]
+    data = response.json()
+
+    sql = data.get("response")
+
+    if not sql:
+        raise RuntimeError("Ollama returned an empty response.")
 
     return clean_sql(sql)
