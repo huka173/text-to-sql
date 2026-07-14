@@ -2,8 +2,10 @@ import time
 import json
 
 from app.services.chat_service import process_question
-from app.utils.formatter import result_to_markdown
 from app.services.chart_service import build_chart
+from app.services.ollama_service import select_chart_type
+from app.utils.formatter import result_to_markdown
+
 
 def create_chat_completion(request):
     start = time.time()
@@ -13,15 +15,28 @@ def create_chat_completion(request):
     answer = process_question(question)
 
     sql = answer["sql"]
-    rows = result_to_markdown(answer["result"])
-    chart = build_chart(answer["result"])
+    result = answer["result"]
+
+    rows = result_to_markdown(result)
+
+    chart_type = select_chart_type(
+        question,
+        sql,
+        result,
+    )
+
+    print(f"Selected chart: {chart_type}")
+
+    chart = build_chart(
+        result,
+        chart_type,
+    )
 
     content = f"""## SQL
 
 ```sql
 {sql}
 ```
-
 ## Result:
 
 {rows}
@@ -30,7 +45,7 @@ def create_chat_completion(request):
         chart_json = json.dumps(
             chart,
             ensure_ascii=False,
-            indent=2
+            indent=2,
         )
 
         content += "\n\n```chart\n"
