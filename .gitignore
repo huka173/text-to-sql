@@ -5,3 +5,60 @@ backend/__pycache__
 wren/.wren
 __pycache__/
 *.pyc
+frontend/NextChat/node_modules/
+frontend/NextChat/.next/
+frontend/NextChat/.env.local
+
+
+# NextChat
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+frontend/NextChat/node_modules
+frontend/NextChat/.pnp
+frontend/NextChat/.pnp.js
+
+# testing
+frontend/NextChat/coverage
+
+# next.js
+frontend/NextChat/.next/
+frontend/NextChat/out/
+
+# production
+frontend/NextChat/build
+
+# misc
+frontend/NextChat/*.DS_Store
+frontend/NextChat/*.pem
+
+# debug
+frontend/NextChat/npm-debug.log*
+frontend/NextChat/yarn-debug.log*
+frontend/NextChat/yarn-error.log*
+frontend/NextChat/*.pnpm-debug.log*
+
+# local env files
+frontend/NextChat/.env*.local
+
+# vercel
+frontend/NextChat/*.vercel
+
+# typescript
+frontend/NextChat/*.tsbuildinfo
+frontend/NextChat/next-env.d.ts
+frontend/NextChat/dev
+
+frontend/NextChat/.vscode
+frontend/NextChat/.idea
+
+# docker-compose env files
+.env
+
+frontend/NextChat/*.key
+frontend/NextChat/*.key.pub
+
+frontend/NextChat/masks.json
+
+# mcp config
+frontend/NextChat/app/mcp/mcp_config.json
