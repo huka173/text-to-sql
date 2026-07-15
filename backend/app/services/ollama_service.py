@@ -58,6 +58,31 @@ For cumulative values:
 calculate the difference between current and previous period.
 - Use LAG() window function.
 
+Visualization rules:
+
+- If the user request requires a chart, return exactly TWO columns.
+- The first column must be the X-axis.
+- The second column must be the numeric Y-axis.
+- Do not return separate year and month columns.
+- For time series use:
+
+DATE_TRUNC('month', date_column) AS period
+
+instead of:
+
+EXTRACT(YEAR ...)
+EXTRACT(MONTH ...)
+
+- Always ORDER BY the X-axis column.
+
+Examples:
+
+Bad:
+year | month | count
+
+Good:
+period | count
+
 User question:
 
 {question}

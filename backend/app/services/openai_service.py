@@ -32,6 +32,10 @@ def create_chat_completion(request):
         chart_type,
     )
 
+    print("=== GENERATED CHART ===")
+    print(json.dumps(chart, ensure_ascii=False, indent=2))
+    print("======================")
+
     content = f"""## SQL
 
 ```sql
