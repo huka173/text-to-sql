@@ -242,3 +242,9 @@ BASE_URL=http://localhost:8000
 
 CUSTOM_MODELS=text-to-sql
 ```
+
+Запустите frontend часть:
+```bash
+npm run dev
+```
+Зайдите на localhost:3000 и протестируйте систему.
